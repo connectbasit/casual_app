@@ -1,0 +1,59 @@
+name: Build & Release Android
+
+on:
+push:
+branches:
+  - master
+
+jobs:
+build:
+name: Build Flutter Android Release
+runs-on: ubuntu-latest
+
+
+if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+
+steps:
+  - name: Checkout repository
+uses: actions/checkout@v4
+
+  - name: Set up Java (required for Android build)
+uses: actions/setup-java@v4
+with:
+distribution: 'zulu'
+java-version: '21'
+
+  - name: Set up Flutter
+uses: subosito/flutter-action@v2
+with:
+flutter-version: '3.35.7'
+channel: 'stable'
+
+  - name: Recreate API key secret file
+run: echo "${{ secrets.API_KEYS_DART }}" > lib/api_key_secret.dart
+
+  - name: Install dependencies
+run: flutter pub get
+
+  - name: Build APK (release, split per ABI)
+run: flutter build apk --release --split-per-abi
+
+  # Optional: Also build App Bundle (.aab) — very common for Play Store releases
+  # Uncomment if you want both APK + AAB
+  # - name: Build App Bundle (release)
+  #   run: flutter build appbundle --release
+
+  - name: Upload to GitHub Releases
+uses: ncipollo/release-action@v1
+with:
+artifacts: |
+  build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk,
+  build/app/outputs/flutter-apk/app-arm64-v8a-release.apk,
+  build/app/outputs/flutter-apk/app-x86_64-release.apk
+# If you enabled appbundle above, add: build/app/outputs/bundle/release/app-release.aab
+tag: v1.0.${{ github.run_number }}
+token: ${{ secrets.TOKEN }}
+makeLatest: true
+# Optional improvements you might want:
+# generateReleaseNotes: true
+# body: "Auto-generated release from commit ${{ github.sha }}"
