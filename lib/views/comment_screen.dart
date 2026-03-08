@@ -17,6 +17,9 @@ class CommentScreen extends StatelessWidget {
           return ListTile(
             title: Text(comment[index].user!.name),
             subtitle: Text(comment[index].userComment),
+            onTap: (){
+              Provider.of<ApiServices>(context, listen: false).indexRemover('comment', index, context);
+            },
           );
         },);
       }, selector: (_, provider) => (provider.isLoading, provider.comments),),

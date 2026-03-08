@@ -19,6 +19,9 @@ class QuoteScreen extends StatelessWidget {
             return ListTile(
               title: Text(quotes[index].authorName),
               subtitle: Text(quotes[index].quotation),
+              onTap: (){
+                Provider.of<ApiServices>(context, listen: false).indexRemover('quote', index, context);
+              },
             );
           },);
       }, selector: (_, provider) => (provider.isLoading ,provider.quotations),)

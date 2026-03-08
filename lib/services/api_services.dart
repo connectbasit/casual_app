@@ -6,16 +6,12 @@ class ApiServices extends ChangeNotifier{
   final String _baseURL = 'https://dummyjson.com';
 
   int selectedIndex = 0;
-  int get _selectedIndex => selectedIndex;
 
   List<QuoteModel> quotations = [];
-  List get _quotations => quotations;
 
   List<CommentModel> comments = [];
-  List get _comments => comments;
 
   List<RecipeModel> recipes = [];
-  List get _recipes => recipes;
 
   bool isLoading = false;
 
@@ -105,6 +101,12 @@ class ApiServices extends ChangeNotifier{
 
   void changeIndex(int index){
     selectedIndex = index;
+    notifyListeners();
+  }
+
+  void indexRemover(String type, int index, BuildContext context){
+    type == 'quote' ? quotations.removeAt(index) : type == 'recipe' ? recipes.removeAt(index) : type == 'comment' ? comments.removeAt(index) : null;
+    customMessage(context, '$type is removed', 200);
     notifyListeners();
   }
 }

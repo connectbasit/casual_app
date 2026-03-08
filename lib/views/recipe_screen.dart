@@ -18,7 +18,10 @@ class RecipeScreen extends StatelessWidget {
           return ListTile(
             leading: Image.network(recipes[index].recipeImage),
             title: Text(recipes[index].recipeName),
-            subtitle: Text(recipes[index].rating.toString()),
+            subtitle: Text(recipes[index].ingredient.join('\n')),
+            onTap: (){
+              Provider.of<ApiServices>(context, listen: false).indexRemover('recipe', index, context);
+            },
           );
         },);
       }, selector: (_, provider) => (provider.isLoading, provider.recipes),),
