@@ -10,13 +10,16 @@ class QuoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('QuoteScreen'),
       body: Selector<ApiServices, (bool, List<QuoteModel>)>(builder: (context, value, _) {
         final isLoading = value.$1;
         final quotes = value.$2;
         return isLoading ? Center(child: CircularProgressIndicator(),) : ListView.builder(
+          key: Key('quoteList'),
           itemCount: quotes.length,
           itemBuilder: (context, index) {
             return ListTile(
+              key: Key(quotes[index].quoteID.toString()),
               title: Text(quotes[index].authorName),
               subtitle: Text(quotes[index].quotation),
               onTap: (){

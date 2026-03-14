@@ -71,4 +71,4 @@ To Initialize Patrol Test follow below steps.
     }
    ```
 9. Create Folder at root `patrol_test` and Add your first test file `filename_test.dart`
-10. Launch Test by running command `patrol test -t patrol_test/filename_test.dart`
+10. Launch Test by running command `patrol test -t patrol_test/filename_test.dart` OR 

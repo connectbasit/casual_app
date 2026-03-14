@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ApiServices(),)
         ],
     child: const MaterialApp(
+      key: Key('MaterialApp'),
       title: 'Casual App',
       home: HomeScreen(),
     )

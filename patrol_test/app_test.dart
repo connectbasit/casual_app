@@ -9,7 +9,18 @@ void main() {
         ($) async {
       await $.pumpWidgetAndSettle(const MyApp());
 
-      expect($(MaterialApp), findsOneWidget);
+      await $(#comment).tap();
+
+      await $(#CommentScreen).waitUntilVisible();
+
+      await $(#quote).tap();
+
+      await $(#QuoteScreen).waitUntilVisible();
+
+      await $(#recipe).tap();
+
+      await $(#RecipeScreen).waitUntilVisible();
+
     },
   );
 }
